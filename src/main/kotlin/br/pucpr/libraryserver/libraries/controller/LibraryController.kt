@@ -4,6 +4,7 @@ import br.pucpr.libraryserver.libraries.LibraryService
 import br.pucpr.libraryserver.libraries.SortDir
 import br.pucpr.libraryserver.libraries.controller.requests.CreateLibraryRequest
 import br.pucpr.libraryserver.libraries.controller.responses.LibraryResponse
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,6 +17,7 @@ class LibraryController(
 ) {
 
     @PostMapping
+    @SecurityRequirement(name = "AuthServer")
     fun insert(@RequestBody @Valid library: CreateLibraryRequest) =
         libraryService.insert(library.toLibrary())
             .let { LibraryResponse(it) }
@@ -43,12 +45,14 @@ class LibraryController(
         libraryService.delete(id)
             .let { ResponseEntity.ok().build() }
 
-    @PostMapping("/{libraryId}/books/{bookId}")
+    @PutMapping("/{libraryId}/books/{bookId}")
+    @SecurityRequirement(name = "AuthServer")
     fun addBookToLibrary(@PathVariable libraryId: Long, @PathVariable bookId: Long) {
         libraryService.addBookToLibrary(libraryId, bookId)
     }
 
     @DeleteMapping("/{libraryId}/books/{bookId}")
+    @SecurityRequirement(name = "AuthServer")
     fun removeBookFromLibrary(@PathVariable libraryId: Long, @PathVariable bookId: Long) {
         libraryService.removeBookFromLibrary(libraryId, bookId)
     }

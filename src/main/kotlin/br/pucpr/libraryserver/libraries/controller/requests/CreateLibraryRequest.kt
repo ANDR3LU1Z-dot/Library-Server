@@ -1,6 +1,5 @@
 package br.pucpr.libraryserver.libraries.controller.requests
 
-import br.pucpr.libraryserver.books.Book
 import br.pucpr.libraryserver.libraries.Library
 import jakarta.validation.constraints.NotBlank
 
